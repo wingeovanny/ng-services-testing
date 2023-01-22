@@ -27,6 +27,12 @@ describe('Test for calculator', () => {
     expect(calculator.div(5, 2)).toEqual(2.5);
   });
 
+  it('#div should return null', () => {
+    const calculator = new Calculator();
+
+    expect(calculator.div(5, 0)).toBeNull;
+  });
+
   it('tests matchers', () => {
     const name = 'edwin';
     let name2;
