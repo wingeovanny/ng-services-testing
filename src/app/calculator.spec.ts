@@ -1,36 +1,40 @@
 import { Calculator } from './calculator';
 
 describe('Test for calculator', () => {
-  it('#mult should return a nine', () => {
-    //Arrange
-    const calculator = new Calculator();
-    //Actr
-    const result = calculator.mul(3, 3);
-    //Assert
-    expect(result).toEqual(9);
+  describe('Test for multiply', () => {
+    it('should return a nine', () => {
+      //Arrange
+      const calculator = new Calculator();
+      //Actr
+      const result = calculator.mul(3, 3);
+      //Assert
+      expect(result).toEqual(9);
+    });
+
+    it('should return a four', () => {
+      //Arrange
+      const calculator = new Calculator();
+      //Actr
+      const result = calculator.mul(2, 2);
+      //Assert
+      expect(result).toEqual(4);
+    });
   });
 
-  it('#mult should return a four', () => {
-    //Arrange
-    const calculator = new Calculator();
-    //Actr
-    const result = calculator.mul(2, 2);
-    //Assert
-    expect(result).toEqual(4);
-  });
+  describe('Test for divide', () => {
+    it('should return a some numbers', () => {
+      //Arrange
+      const calculator = new Calculator();
+      //Actr
+      expect(calculator.div(6, 3)).toEqual(2);
+      expect(calculator.div(5, 2)).toEqual(2.5);
+    });
 
-  it('#div should return a some numbers', () => {
-    //Arrange
-    const calculator = new Calculator();
-    //Actr
-    expect(calculator.div(6, 3)).toEqual(2);
-    expect(calculator.div(5, 2)).toEqual(2.5);
-  });
+    it(' should return null', () => {
+      const calculator = new Calculator();
 
-  it('#div should return null', () => {
-    const calculator = new Calculator();
-
-    expect(calculator.div(5, 0)).toBeNull;
+      expect(calculator.div(5, 0)).toBeNull;
+    });
   });
 
   it('tests matchers', () => {
