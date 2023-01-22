@@ -3,7 +3,11 @@ import {
   generateOneProduct,
 } from './../models/product.mock';
 import { environment } from './../../environments/environment';
-import { Product, CreateProductDTO } from './../models/product.model';
+import {
+  Product,
+  CreateProductDTO,
+  UpdateProductDTO,
+} from './../models/product.model';
 import { ProductsService } from './product.service';
 import { TestBed } from '@angular/core/testing';
 import {
@@ -149,6 +153,51 @@ fdescribe('ProductService', () => {
       req.flush(mockData);
       expect(req.request.body).toEqual(dto);
       expect(req.request.method).toEqual('POST');
+    });
+  });
+
+  describe('Test for update product', () => {
+    it('#update, should update a product', (doneFn) => {
+      // Arrange
+      const mockData = generateOneProduct();
+      const productId = '1';
+      const dto: UpdateProductDTO = {
+        title: 'Product edited',
+        price: 1000,
+        images: ['img'],
+        description: 'This is a product edited',
+        categoryId: 12,
+      };
+      // Act
+      serviceProduct.update(productId, { ...dto }).subscribe((data) => {
+        // Assert
+        expect(data).toEqual(mockData);
+        doneFn();
+      });
+      // Http Config
+      const url = `${environment.API_URL}/api/v1/products/${productId}`;
+      const req = httpController.expectOne(`${url}`);
+      req.flush(mockData);
+      expect(req.request.body).toEqual(dto);
+      expect(req.request.method).toEqual('PUT');
+    });
+  });
+
+  describe('Test for delete product', () => {
+    it('#Delete, should delete a product', (doneFn) => {
+      // Arrange
+      const productId = '1';
+      // Act
+      serviceProduct.delete(productId).subscribe((data) => {
+        // Assert
+        expect(data).toBe(true);
+        doneFn();
+      });
+      // Http Config
+      const url = `${environment.API_URL}/api/v1/products/${productId}`;
+      const req = httpController.expectOne(`${url}`);
+      req.flush(true);
+      expect(req.request.method).toEqual('DELETE');
     });
   });
 });
