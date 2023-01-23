@@ -1,7 +1,7 @@
 name: CI for Angular
 on: Push
 jobs:
-  uni-test:
+  unit-test:
     runs-on: ubuntu-latest
     steps:
       - name: Clone
@@ -13,4 +13,4 @@ jobs:
       -name: Install
         run: npm ci
       - name: run tests
-        run: ng test --no-watch --code-coverage --browsers=ChromeHeadless
+        run: ng test --no-watch --code-coverage --browsers=ChromeHeadlessCI
