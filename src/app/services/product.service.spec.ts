@@ -1,3 +1,5 @@
+import { TokenService } from './token.service';
+import { TokenInterceptor } from './../interceptors/token.interceptor';
 import {
   generateManyProducts,
   generateOneProduct,
@@ -14,20 +16,26 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import { HttpStatusCode } from '@angular/common/http';
+import { HttpStatusCode, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 fdescribe('ProductService', () => {
   let serviceProduct: ProductsService;
   let httpController: HttpTestingController;
+  let tokenService: TokenService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [ProductsService],
+      providers: [
+        ProductsService,
+        TokenService,
+        { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
+      ],
       imports: [HttpClientTestingModule],
     }).compileComponents();
 
     serviceProduct = TestBed.inject(ProductsService);
     httpController = TestBed.inject(HttpTestingController);
+    tokenService = TestBed.inject(TokenService);
   });
 
   afterEach(() => {
@@ -42,6 +50,8 @@ fdescribe('ProductService', () => {
     it('should return a product list', (doneFn) => {
       //Arrange
       const mockData: Product[] = generateManyProducts(2);
+      spyOn(tokenService, 'getToken').and.returnValue('123');
+
       //Act
       serviceProduct.getAllSimple().subscribe((data) => {
         //Assert
@@ -53,6 +63,9 @@ fdescribe('ProductService', () => {
       //http config
       const url = `${environment.API_URL}/api/v1/products`;
       const req = httpController.expectOne(url);
+      const headers = req.request.headers;
+      expect(headers.get('Authorization')).toEqual('Bearer 123');
+      expect();
       req.flush(mockData);
     });
   });
