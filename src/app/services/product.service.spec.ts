@@ -18,7 +18,7 @@ import {
 } from '@angular/common/http/testing';
 import { HttpStatusCode, HTTP_INTERCEPTORS } from '@angular/common/http';
 
-fdescribe('ProductService', () => {
+describe('ProductService', () => {
   let serviceProduct: ProductsService;
   let httpController: HttpTestingController;
   let tokenService: TokenService;
